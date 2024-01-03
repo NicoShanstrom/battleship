@@ -24,7 +24,7 @@ class Cell
         @fired_upon
     end
 
-    def fired_upon
+    def fire_upon
         if @ship.nil?
             @fired_upon = true
         else 
@@ -32,6 +32,4 @@ class Cell
             @fired_upon = true
         end
     end
-
-
 end 
