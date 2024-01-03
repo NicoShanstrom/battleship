@@ -38,4 +38,13 @@ RSpec.describe Cell do
         expect(cell.fired_upon?).to eq(true)
     end
 
+    it 'can render actions' do
+        cell_1 = Cell.new("B4")
+
+        expect(cell_1.render).to eq(".")
+
+        cell_1.fire_upon
+        expect(cell_1.render).to eq("M")
+
+    end
 end 
