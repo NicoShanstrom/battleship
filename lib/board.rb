@@ -1,7 +1,8 @@
 
 class Board
-    attr_reader :cells
+    attr_reader :cells, :placement
     def initialize
+
         @cells = {
         "A1" =>Cell.new("A1"),
         "A2" =>Cell.new("A2"),
@@ -21,10 +22,19 @@ class Board
         "D4" =>Cell.new("D4")
 
         }
+        @placement = []
     end
 
     def valid_coordinate?(coordinate)
-        
+        @cells.keys.include?(coordinate)
+    end
 
+    def valid_placement?(ship, coordinates)
+        if coordinates.length == ship.length
+            true
+        else
+            false
+        end
     end
 end
+
