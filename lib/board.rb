@@ -30,11 +30,20 @@ class Board
     end
 
     def valid_placement?(ship, coordinates)
-        if coordinates.length == ship.length
-            true
-        else
-            false
+        return false if coordinates.count != ship.length || coordinates.length > 3
+
+        first_letter = coordinates[0][0]
+        first_number = coordinates[0][1].to_i
+        consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
+            (coord1[0] == coord2[0] && (coord2[1].to_i - coord1[1].to_i).abs == 1) ||
+            (coord1[1] == coord2[1] && (coord2[0].ord - coord1[0].ord).abs == 1)
+            
+            # (coord[0] == first_letter && (coord[1].to_i - first_number).abs <= 1) ||
+            # (coord[1] == first_number && (coord[0].ord - first_letter.ord).abs <= 1)
         end
+        
+        consecutive && coordinates.uniq.size == coordinates.size # Ensure no duplicates
+        # require 'pry'; binding.pry
     end
 end
 
