@@ -33,23 +33,29 @@ class Cell
         end
     end
 
-    # def render(reveal_ship = false)
-    #     if fired_upon?
-    #         if @ship.sunk?
-    #             "X"
-    #         elsif @ship.hit
-    #             "H"
-    #         elsif @ship.fired_upon && hit == false
-    #             "M"
-            
-    #         end
-    #     elsif reveal_ship && @ship
-    #         "S"
-    #     else
-    #         "."
-    #     end
-    # end
+    def render(reveal_ship = false)
+        if ship_exists?
+            if @ship.sunk?
+                "X"
+            elsif ship_got_hit(reveal_ship)
+                "H"
+            elsif reveal_ship
+                "S"
+            else
+                "."
+            end
+        elsif @fired_upon == false
+            "."
+        elsif @fired_upon == true && @ship.nil?
+            "M"
+        end
+    end
 
-    def render
+    def ship_got_hit(reveal_ship)
+        (reveal_ship && @fired_upon) || @fired_upon
+    end 
 
+    def ship_exists?
+        !@ship.nil?
+    end
 end 
