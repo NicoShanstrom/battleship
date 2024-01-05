@@ -31,10 +31,33 @@ class Board
 
     def valid_placement?(ship, coordinates)
         if coordinates.length == ship.length
-            true
+            is_consecutive?(coordinates)
         else
             false
         end
+
     end
+
+    def is_consecutive?(coordinates)
+    
+        coordinates.each_with_index do |coordinate, index|
+            current_letter = coordinate[0]
+            current_number = coordinate[1]
+            next_letter = coordinates[index+1][0] if coordinates[index+1]
+            next_number = coordinates[index+1][1] if coordinates[index+1]
+
+            coordinates.each_cons(3) do |coordinate|
+                require 'pry' ; binding.pry
+
+            end 
+
+
+        end 
+
+    end 
+    # def ship_placement(array)
+    #     array = [
+    #         ["A1", "A2", "A3"]
+    #     ]
 end
 
