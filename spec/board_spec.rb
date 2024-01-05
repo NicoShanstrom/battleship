@@ -45,14 +45,37 @@ RSpec.describe Board do
         
     end
 
-    xit 'can render a visual representation of itself' do
+    it 'can place a ship' do
         board = Board.new
-      
+        cruiser = Ship.new("Cruiser", 3) 
+
+        board.place(cruiser, ["A1", "A2", "A3"])
+        cell_1 = board.cells["A1"] 
+        cell_2 = board.cells["A2"]
+        cell_3 = board.cells["A3"]
+
+        cell_1.ship
+        cell_2.ship
+        expect(cell_3.ship).to eq(cruiser)
+        expect(cell_3.ship == cell_2.ship).to eq(true)
     end
     
-    xit 'has cell objects' do
-        expect(cells.size)
-        
+    it 'can not overlap' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3) 
+        board.place(cruiser, ["A1", "A2", "A3"])
+        submarine = Ship.new("Submarine", 2)
+
+        expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
     end
 
+    it 'can render the board' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3) 
+        board.place(cruiser, ["A1", "A2", "A3"])  
+        
+        expect(board.cells['A1']).to be_a Cell
+        expect(board.cells['A1'].render).to eq('.')
+        expect { board.render2 }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
+    end 
 end
