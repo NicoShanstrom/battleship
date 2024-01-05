@@ -28,21 +28,12 @@ class Cell
     end
 
     def render(reveal_ship = false)
-        if ship_exists?
-            if @ship.sunk?
-                "X"
-            elsif ship_got_hit(reveal_ship)
-                "H"
-            elsif reveal_ship
-                "S"
-            else
-                "."
-            end
-        elsif @fired_upon == false
-            "."
-        elsif @fired_upon == true && @ship.nil?
-            "M"
-        end
+        return "X" if ship&.sunk?
+        return "H" if ship && fired_upon?
+        return "M" if !ship && fired_upon?
+        return "S" if ship && reveal_ship
+
+        "."
     end
 
     def ship_got_hit(reveal_ship)
