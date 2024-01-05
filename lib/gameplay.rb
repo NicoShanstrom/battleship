@@ -10,6 +10,6 @@ class Gameplay
         p "Enter p to play. Enter q to quit."
         choice = gets.chomp.downcase
         if choice == "p"
-        
+        end
     end
 end
