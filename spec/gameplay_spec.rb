@@ -10,8 +10,9 @@ RSpec.describe Gameplay do
 
     it 'can start the game' do
         gameplay = Gameplay.new
-        expect(gameplay.main_menu).to eq("Welcome to BATTLESHIP")
-        expect(gameplay.main_menu).to eq("Enter p to play. Enter q to quit.")
+        expect(gameplay.main_menu).to include("Welcome to BATTLESHIP")
+        expect(gameplay.main_menu).to include("Enter p to play. Enter q to quit.")
+       
     end
 
 end
