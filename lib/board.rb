@@ -22,7 +22,8 @@ class Board
         "D4" =>Cell.new("D4")
 
         }
-        @placement = []
+        @placement_ship = []
+
     end
 
     def valid_coordinate?(coordinate)
@@ -45,5 +46,19 @@ class Board
         consecutive && coordinates.uniq.size == coordinates.size # Ensure no duplicates
         # require 'pry'; binding.pry
     end
+
+    def place(ship, array)
+        cell_1 = @cells[array[0]]
+        cell_2 = @cells[array[1]]
+        cell_1.place_ship(ship)
+        cell_2.place_ship(ship)
+        if array.length == 3
+            cell_3 = @cells[array[2]]
+            cell_3.place_ship(ship)
+        end 
+        array.each do |coordinate|
+            @placement_ship << coordinate
+        end
+    end 
 end
 
