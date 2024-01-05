@@ -45,5 +45,7 @@ class Board
         consecutive && coordinates.uniq.size == coordinates.size # Ensure no duplicates
         # require 'pry'; binding.pry
     end
+
+    
 end
 
