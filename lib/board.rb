@@ -62,8 +62,7 @@ class Board
 
 
     def render2(reveal = false)
-    board_string = ""
-    board_string += "  1 2 3 4 \n" 
+    board_string = "  1 2 3 4 \n" 
     ('A'..'D').each do |row|
         board_string += row + " "
         (1..4).each do |col|
