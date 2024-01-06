@@ -31,15 +31,25 @@ class Board
     end
 
     def valid_placement?(ship, coordinates)
+        #checks for ship length to equal coordinate count
         return false if coordinates.count != ship.length || coordinates.length > 3
+        #checks for not overlapping
         return false if coordinates.any? {|coord| !@cells[coord].empty?}
+         # Check for L shape:
+        return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
+            (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
+            (coord1[1] == coord2[1] && coord2[0] == coord3[0])
+        end
+        #extract the first letter and number from the first coordinate, can be used for rendering the board when ship is placed for future reference
         first_letter = coordinates[0][0]
         first_number = coordinates[0][1].to_i
+        #checks for consecutive placement either horizontally or vertically
         consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
             (coord1[0] == coord2[0] && (coord2[1].to_i - coord1[1].to_i).abs == 1) ||
             (coord1[1] == coord2[1] && (coord2[0].ord - coord1[0].ord).abs == 1)        
         end
         
+        #verifies consecutive placement and no duplicate cells in placement
         consecutive && coordinates.uniq.size == coordinates.size 
     end
 
@@ -49,16 +59,23 @@ class Board
         end
     end
 
+
+
     def render2(reveal = false)
-        if reveal
-            puts "  1 2 3 4 \nA #{@cells['A1'].render(true)} #{@cells['A2'].render(true)} #{@cells['A3'].render(true)} #{@cells['A4'].render(true)} \n" +
-            "B #{@cells['B1'].render(true)} #{@cells['B2'].render(true)} #{@cells['B3'].render(true)} #{@cells['B4'].render(true)} \n" +
-            "C #{@cells['C1'].render(true)} #{@cells['C2'].render(true)} #{@cells['C3'].render(true)} #{@cells['C4'].render(true)} \n" +
-            "D #{@cells['D1'].render(true)} #{@cells['D2'].render(true)} #{@cells['D3'].render(true)} #{@cells['D4'].render(true)} \n"
-        else 
-            puts "  1 2 3 4 \nA #{@cells['A1'].render} #{@cells['A2'].render} #{@cells['A3'].render} #{@cells['A4'].render} \nB #{@cells['B1'].render} #{@cells['B2'].render} #{@cells['B3'].render} #{@cells['B4'].render} \nC #{@cells['C1'].render} #{@cells['C2'].render} #{@cells['C3'].render} #{@cells['C4'].render} \nD #{@cells['D1'].render} #{@cells['D2'].render} #{@cells['D3'].render} #{@cells['D4'].render} \n"
+    board_string = ""
+    board_string += "  1 2 3 4 \n" 
+    ('A'..'D').each do |row|
+        board_string += row + " "
+        (1..4).each do |col|
+            cell_key = row + col.to_s
+            board_string += @cells[cell_key].render(reveal) + " "
         end
+        board_string += "\n"
     end
+
+    board_string
+    end
+
 
 end
 
