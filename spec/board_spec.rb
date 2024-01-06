@@ -42,6 +42,7 @@ RSpec.describe Board do
         expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq(true)
         # require 'pry'; binding.pry
         expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to eq(true)
+        expect(board.valid_placement?(cruiser, ["A1", "A2", "B2"])).to eq(false)
         
     end
 
@@ -76,6 +77,19 @@ RSpec.describe Board do
         
         expect(board.cells['A1']).to be_a Cell
         expect(board.cells['A1'].render).to eq('.')
-        expect { board.render2 }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
+        expect(board.render2).to eq(
+        "  1 2 3 4 \n" +
+        "A . . . . \n" +
+        "B . . . . \n" +
+        "C . . . . \n" +
+        "D . . . . \n")
+        expect(board.render2(true)).to eq(
+        "  1 2 3 4 \n" +
+        "A S S S . \n" +
+        "B . . . . \n" +
+        "C . . . . \n" +
+        "D . . . . \n")
+
+        # expect(board.render2).to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
     end 
 end
