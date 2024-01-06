@@ -4,7 +4,7 @@ require './lib/cell'
 
 RSpec.describe Board do
     it 'exists' do
-        board = Board.new
+        board = Board.new()
         expect(board).to be_an_instance_of Board
     end
 
@@ -76,6 +76,6 @@ RSpec.describe Board do
         
         expect(board.cells['A1']).to be_a Cell
         expect(board.cells['A1'].render).to eq('.')
-        expect { board.render2 }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
+        expect { board.render_two }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
     end 
 end
