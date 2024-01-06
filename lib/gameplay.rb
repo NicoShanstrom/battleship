@@ -6,7 +6,8 @@ class GamePlay
         puts "Enter p to play. Enter q to quit."
         choice = gets.chomp.downcase
         if choice == "p"
-            start_game
+            new_game = Game.new()
+            new_game.setup
         elsif choice == 'q'
             exit
         else
@@ -14,11 +15,6 @@ class GamePlay
             main_menu
         end
     end
-
-    def start_game
-        Game.setup
-    end 
-
 end
 
 GamePlay.new().main_menu
