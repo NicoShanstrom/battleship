@@ -1,12 +1,7 @@
-
-class Gameplay
-    
-    def initialize
-    
-    end
+require './lib/game'
+class GamePlay
 
     def main_menu
-       
         puts "Welcome to BATTLESHIP"
         puts "Enter p to play. Enter q to quit."
         choice = gets.chomp.downcase
@@ -18,6 +13,12 @@ class Gameplay
             puts "Invalid choice. Please enter p or q"
             main_menu
         end
-
     end
+
+    def start_game
+        Game.setup
+    end 
+
 end
+
+GamePlay.new().main_menu
