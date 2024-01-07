@@ -30,17 +30,26 @@ class Board
         @cells.keys.include?(coordinate)
     end
 
+    def valid_shot?(coordinate)
+        valid_coordinate?(coordinate) && !@cells[coordinate].fired_upon?
+    end
+
     def valid_placement?(ship, coordinates)
         return false if coordinates.count != ship.length
-        return false if coordinates.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
-
+        return false if coordinates.any? {|coord| !valid_coordinate?(coord) && !@cells[coord].empty?}
+        return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
+            (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
+            (coord1[1] == coord2[1] && coord2[0] == coord3[0])
+        end
         first_letter = coordinates[0][0]
         first_number = coordinates[0][1].to_i
+        #checks for consecutive placement either horizontally or vertically
         consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
             (coord1[0] == coord2[0] && (coord2[1].to_i - coord1[1].to_i).abs == 1) ||
             (coord1[1] == coord2[1] && (coord2[0].ord - coord1[0].ord).abs == 1)        
         end
         
+        #verifies consecutive placement and no duplicate cells in placement
         consecutive && coordinates.uniq.size == coordinates.size 
     end
 
@@ -50,7 +59,7 @@ class Board
         end
     end
 
-    def render_two(reveal = false)
+    def render_board(reveal = false)
         if reveal
             puts "  1 2 3 4 \nA #{@cells['A1'].render(true)} #{@cells['A2'].render(true)} #{@cells['A3'].render(true)} #{@cells['A4'].render(true)} \n" +
             "B #{@cells['B1'].render(true)} #{@cells['B2'].render(true)} #{@cells['B3'].render(true)} #{@cells['B4'].render(true)} \n" +
@@ -59,6 +68,7 @@ class Board
         else 
             puts "  1 2 3 4 \nA #{@cells['A1'].render} #{@cells['A2'].render} #{@cells['A3'].render} #{@cells['A4'].render} \nB #{@cells['B1'].render} #{@cells['B2'].render} #{@cells['B3'].render} #{@cells['B4'].render} \nC #{@cells['C1'].render} #{@cells['C2'].render} #{@cells['C3'].render} #{@cells['C4'].render} \nD #{@cells['D1'].render} #{@cells['D2'].render} #{@cells['D3'].render} #{@cells['D4'].render} \n"
         end
+        
     end
 end
 
