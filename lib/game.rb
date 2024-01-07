@@ -4,7 +4,7 @@ class Game
         ai = Ai.new
         board = Board.new
         ai.place_ships
-        
+       
         initial_prompt
         cruiser_user_input(board)
         
@@ -13,6 +13,17 @@ class Game
         submarine_user_input(board)
         
         puts board.render_two(true)
+        self.turn(ai, board)
+    end
+
+    def self.turn(ai, board)
+        puts "===============COMPUTER BOARD============="
+        puts ai.board.render_two()
+        puts "===============PLAYER BOARD==============="
+        puts board.render_two(true)
+        puts "Enter the coordinate for your shot: >"
+        user_shot_input = gets.chomp
+        
     end
     
     def self.initial_prompt
