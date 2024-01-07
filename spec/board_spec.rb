@@ -40,8 +40,8 @@ RSpec.describe Board do
         expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
             #is this a valid placement?
         expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq(true)
-        # require 'pry'; binding.pry
         expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to eq(true)
+            #L shaped placement
         expect(board.valid_placement?(cruiser, ["A1", "A2", "B2"])).to eq(false)
         
     end
@@ -77,6 +77,6 @@ RSpec.describe Board do
         
         expect(board.cells['A1']).to be_a Cell
         expect(board.cells['A1'].render).to eq('.')
-        expect { board.render_two }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
+        expect { board.render_board }.to output("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n").to_stdout
     end 
 end
