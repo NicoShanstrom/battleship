@@ -16,7 +16,8 @@ class GamePlay
     end
 
     def start_game
-        Game.setup
+        game = Game.new
+        game.setup
     end 
 
 end
