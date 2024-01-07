@@ -31,16 +31,9 @@ class Board
     end
 
     def valid_placement?(ship, coordinates)
-        #checks for ship length to equal coordinate count
-        return false if coordinates.count != ship.length || coordinates.length > 3
-        #checks for not overlapping
-        return false if coordinates.any? {|coord| !@cells[coord].empty?}
-         # Check for L shape:
-        return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
-            (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
-            (coord1[1] == coord2[1] && coord2[0] == coord3[0])
-        end
-        #extract the first letter and number from the first coordinate, can be used for rendering the board when ship is placed for future reference
+        return false if coordinates.count != ship.length
+        return false if coordinates.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
+
         first_letter = coordinates[0][0]
         first_number = coordinates[0][1].to_i
         #checks for consecutive placement either horizontally or vertically

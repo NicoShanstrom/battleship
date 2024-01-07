@@ -15,6 +15,12 @@ class GamePlay
             main_menu
         end
     end
+
+    def start_game
+        game = Game.new
+        game.setup
+    end 
+
 end
 
 GamePlay.new().main_menu
