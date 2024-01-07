@@ -31,8 +31,9 @@ class Board
     end
 
     def valid_placement?(ship, coordinates)
-        return false if coordinates.count != ship.length || coordinates.length > 3
-        return false if coordinates.any? {|coord| !@cells[coord].empty?}
+        return false if coordinates.count != ship.length
+        return false if coordinates.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
+
         first_letter = coordinates[0][0]
         first_number = coordinates[0][1].to_i
         consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
