@@ -30,10 +30,17 @@ class Board
         @cells.keys.include?(coordinate)
     end
 
+    def valid_shot?(coordinate)
+        valid_coordinate?(coordinate) && !@cells[coordinate].fired_upon?
+    end
+
     def valid_placement?(ship, coordinates)
         return false if coordinates.count != ship.length
-        return false if coordinates.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
-
+        return false if coordinates.any? {|coord| !valid_coordinate?(coord) && !@cells[coord].empty?}
+        return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
+            (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
+            (coord1[1] == coord2[1] && coord2[0] == coord3[0])
+        end
         first_letter = coordinates[0][0]
         first_number = coordinates[0][1].to_i
         #checks for consecutive placement either horizontally or vertically
