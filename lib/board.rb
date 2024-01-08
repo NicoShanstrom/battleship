@@ -34,29 +34,49 @@ class Board
         valid_coordinate?(coordinate) && !@cells[coordinate].fired_upon?
     end
 
-    def valid_placement?(ship, coordinates)
-        return false if coordinates.count != ship.length
-        return false if coordinates.any? {|coord| !valid_coordinate?(coord) && !@cells[coord].empty?}
-        return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
-            (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
-            (coord1[1] == coord2[1] && coord2[0] == coord3[0])
-        end
-        first_letter = coordinates[0][0]
-        first_number = coordinates[0][1].to_i
-        #checks for consecutive placement either horizontally or vertically
-        consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
-            (coord1[0] == coord2[0] && (coord2[1].to_i - coord1[1].to_i).abs == 1) ||
-            (coord1[1] == coord2[1] && (coord2[0].ord - coord1[0].ord).abs == 1)        
-        end
-        
-        #verifies consecutive placement and no duplicate cells in placement
-        consecutive && coordinates.uniq.size == coordinates.size 
-    end
-
+    
     def place(ship, coordinates)
         coordinates.each do |coordinate|
-          @cells[coordinate].place_ship(ship)
+            @cells[coordinate].place_ship(ship)
         end
+    end
+
+    def valid_placement?(ship, coordinates)
+        sorted_coords = coordinates.sort
+        return false if sorted_coords.count != ship.length
+        return false if sorted_coords.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
+        check_vertical(sorted_coords) || check_horizontal(sorted_coords)
+        return false if check_diagonal(sorted_coords)
+    end 
+    def check_vertical(coordinates)
+        start_letter = coordinates[0][0]
+        coordinates.each_with_index do |coordinate, index|
+          if start_letter.ord + index != coordinate[0].ord
+            return false
+          end
+        end
+        true
+    end
+
+    def check_horizontal(coordinates)
+        start_number = coordinates[0][1].to_i
+        coordinates.each_with_index do |coordinate, index|
+          if start_number + index != coordinate[1].to_i
+            return false
+          end
+        end
+        true
+    end      
+    
+    def check_diagonal(coordinates)
+        start_letter = coordinates[0][0]
+        start_number = coordinates[0][1].to_i
+        coordinates.each_with_index do |coordinate, index|
+            if start_letter + index.to_s != coordinate[0] || start_number + index.to_s != coordinate[1].to_i
+            return false
+            end
+        end
+        true
     end
 
     def render_board(reveal = false)
@@ -70,5 +90,23 @@ class Board
         end
         
     end
+    # def valid_placement?(ship, coordinates)
+    #     return false if coordinates.count != ship.length
+    #     return false if coordinates.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
+    #     return false if coordinates.each_cons(3).any? do |coord1, coord2, coord3|
+    #         (coord1[0] == coord2[0] && coord2[1] == coord3[1]) ||
+    #         (coord1[1] == coord2[1] && coord2[0] == coord3[0])
+    #     end
+    #     first_letter = coordinates[0][0]
+    #     first_number = coordinates[0][1].to_i
+    #     #checks for consecutive placement either horizontally or vertically
+    #     consecutive = coordinates.each_cons(2).all? do |coord1, coord2|
+    #         (coord1[0] == coord2[0] && (coord2[1].to_i - coord1[1].to_i).abs == 1) ||
+    #         (coord1[1] == coord2[1] && (coord2[0].ord - coord1[0].ord).abs == 1)        
+    #     end
+        
+    #     #verifies consecutive placement and no duplicate cells in placement
+    #     consecutive && coordinates.uniq.size == coordinates.size 
+    # end
 end
 
