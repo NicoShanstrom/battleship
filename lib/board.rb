@@ -45,8 +45,7 @@ class Board
         sorted_coords = coordinates.sort
         return false if sorted_coords.count != ship.length
         return false if sorted_coords.any? {|coord| !valid_coordinate?(coord) || !@cells[coord].empty?}
-        check_vertical(sorted_coords) || check_horizontal(sorted_coords)
-        return false if check_diagonal(sorted_coords)
+        check_vertical(sorted_coords) || check_horizontal(sorted_coords) || check_diagonal(sorted_coords)
     end 
     def check_vertical(coordinates)
         start_letter = coordinates[0][0]
@@ -72,7 +71,7 @@ class Board
         start_letter = coordinates[0][0]
         start_number = coordinates[0][1].to_i
         coordinates.each_with_index do |coordinate, index|
-            if start_letter + index.to_s != coordinate[0] || start_number + index.to_s != coordinate[1].to_i
+            if start_letter.to_s + index.to_s != coordinate[0] || start_number + index.to_s != coordinate[1].to_i
             return false
             end
         end
